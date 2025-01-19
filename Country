@@ -1,0 +1,428 @@
+package com.amazon.aeeqa.ui.common;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
+import static com.amazon.aeeqa.ui.AbstractCommonBaseUITest.COUNTRY_CODE;
+
+/**
+ * A list of AEE supported countries, not listing all countries, but listing as wide and effective.
+ * 
+ * @author tingyong
+ */
+public enum Country {
+
+    // For the country's website url, it is still good to specify it with tests run (command line build) as previous with -Durl=xxx.
+    // It would be too complex to handle it here for different countries and stages.
+    
+    // Use the country enum name as the country code.
+    
+    US("United States"),
+    
+    // Popular/Often list from GLOW
+    AU("Australia"),
+    CA("Canada"),
+    CN("China"),
+    JP("Japan"),
+    MX("Mexico"),
+    SG("Singapore"),
+    GB("United Kingdom"),
+    
+    // Other known famous country
+    DE("Germany"),
+    FR("France"),
+    IT("Italy"),
+    ES("Spain"),
+    IN("India"),
+    
+    //Other Countries available for Amber
+    CL("Chile"),
+    BH("Bahrain"),
+    HK("Hong Kong"),
+    EG("Egypt"),
+    ID("Indonesia"),
+    IL("Israel"),
+    JO("Jordan"),
+    BR("Brazil"),
+    
+    // Other random countries
+    AF("Afghanistan"),
+    LU("Luxembourg"),
+    ZW("Zimbabwe"),
+    OM("Oman"),
+    KW("Kuwait"),
+
+    //Other AIS Random countries for URL Check
+    CO("Colombia"),
+    KR("Republic of Korea"),
+    NZ("New Zealand"),
+    SA("Saudi Arabia"),
+    TW("Taiwan"),
+    PH("Philippines"),
+    NG("Nigeria"),
+    MY("Malaysia"),
+    TH("Thailand"),
+
+    //Other Countries available for Jumpin
+    PS("Palestinian Territories"),
+    CH("Switzerland"),
+    GR("Greece"),
+
+    // Other Countries available for GVC
+    NO("Norway"),
+    KZ("Kazakhstan"),
+    JE("Jersey"),
+
+   // Other least visited Countries available for AIS
+    GG("Guernsey"),
+
+   // New countries for AGS arcs
+    TR("Turkey"),
+
+    //New countries for SKALA arcs
+    AT("Austria"),
+
+    //Countries available for Import Fee Charges / Custom Service Fee
+    PE("Peru"),
+    QA("Qatar"),
+    AE("United Arab Emirates"),
+
+    BE("Belgium"),
+    IE("Ireland"),
+    NL("Netherlands"),
+    PL("Poland"),
+    SE("Sweden"),
+    ZA("South Africa");
+
+    private Country(final String countryDisplayName) {
+        this.countryDisplayName = countryDisplayName;
+    }
+    
+    /**
+     * Get a random AIS exportable country.
+     */
+    public static Country getRandomAISExportableCountry() {
+        List<Country> countries = Arrays.stream(Country.values())
+                .filter(country -> country != US)
+                .collect(Collectors.toList());
+        return countries.get(new Random().nextInt(countries.size()));
+    }
+
+    /**
+     * Get AIS most often used exportable countries list based on country
+     */
+    public static Country[] getMostOftenAISExportableCountries() {
+        switch (COUNTRY_CODE) {
+            case "AE":
+                return new Country[]{
+                        OM, BH, KW, SA
+                };
+            case "AU":
+                return new Country[]{
+                        NZ
+                };
+            case "SG":
+                return new Country[]{
+                        MY
+                };
+            case "JP":
+                //JP top international shopping destinations
+                return new Country[]{
+                        CA, CN, HK, SG, US
+                };
+            default:
+                //US top international shopping destinations
+                return new Country[]{
+                        //TODO: Enable KR after a month when new accounts get created with updated address.
+                        //Kamino address is fixed - https://issues.amazon.com/PrimeQA-17372
+                        //TODO: Enable CA after a month - https://issues.amazon.com/issues/D73931147
+                        //TODO: Enable GB after this selection issue is fixed - https://tt.amazon.com/D104703595/overview
+                        JP, AU, MX //KR, CA, GB
+                };
+        }
+    }
+
+    /**
+     * Get Amber most often used countries list.
+     */
+    public static Country[] getAmberExportableCountries() {
+        return new Country[] {
+                //Disabling JP and CA as its no longer Amber countries due to CSF launch - https://issues.amazon.com/issues/D99881905
+                 SG, //JP, CA
+        };
+    }
+
+    /**
+     * Get GVC (GST / VAT / Sales Tax legislation) Countries List.
+     */
+    public static Country[] getGVCCollectionCountries() {
+        return new Country[] {
+        //TODO: Need to add EU countries once https://issues.amazon.com/issues/D24416335 code changes are pushed to prod
+                NZ, AU, NO, SG
+        };
+    }
+
+    /**
+     * Get Custom Service Fee / Import Charges Countries List.
+     */
+    public static Country[] getImportChargesOrCSFCountries() {
+        return new Country[] {
+                PE, AE, QA, KW, TW, MX, CA, HK, JP
+        };
+    }
+
+
+    /**
+     * Get AIS Free Shipping most often used countries list by MP.
+     */
+    public static Country[] getAisFreeShippingExportableCountries() {
+        switch (COUNTRY_CODE) {
+            case "AE":
+                return new Country[]{
+                        OM
+                };
+            case "AU":
+                return new Country[]{
+                        NZ
+                };
+            case "SG":
+                return new Country[]{
+                        MY
+                };
+            case "JP":
+                return new Country[]{
+                        HK , TW
+                };
+            case "DE":
+                return new Country[]{
+                        CH, NO, GR
+                };
+            default:
+                //US MP free shipping countries
+                return new Country[]{
+                        //Temporary disable of IL & PS due to current political conflict - https://issues.amazon.com/issues/D100426668
+                        //Temporarily disabling CL & TW due to current ongoing weblab experiment for Jumpin Strings for Chile and Taiwan destination (till Jun'24) - https://sim.amazon.com/D119019638
+                        CO, HK, PH, PE //, IL, PS, CL, TW
+                };
+        }
+    }
+
+    /**
+     * Get AIS Flat Fee Shipping most often used countries list.
+     */
+    public static Country[] getAisFlatRateShippingExportableCountries() {
+        return new Country[] {
+                TH
+        };
+    }
+
+    /**
+     * Get AIS Free Return most often used countries list.
+     */
+    public static Country[] getAisFreeReturnsExportableCountries() {
+        return new Country[] {
+                CO, HK, IL, TW, CL, PS
+        };
+    }
+
+    /**
+     * Get KYC used countries list.
+     */
+    public static Country[] getKYCCountries() {
+        return new Country[] {
+                 IN, IL, IT, ES, CL, PE
+        };
+    }
+
+    /**
+     * Get Exports Prime used countries list.
+     */
+    public static Country[] getExportsPrimeCountries() {
+        return new Country[] {
+                CO
+        };
+    }
+
+    /**
+     * Get most often used countries list for AIS URL Check.
+     */
+    public static Country[] getAISURLCheckCountries() {
+        return new Country[] {
+                //TODO: Enable KR after Kamino address is fixed - https://issues.amazon.com/PrimeQA-17372
+                CL, CO, PH, TW, ID, HK, IL, NZ, SA, NG, MY, TH //,KR
+        };
+    }
+
+    /**
+     * Get least used countries list for AIS.
+     */
+    public static Country[] getLeastUsedCountries() {
+        return new Country[] {
+                GG
+        };
+    }
+
+    /**
+     * Get AIS Skala (local shipping) most often used countries list by MP
+     */
+    public static Country[] getSkalaExportableCountries() {
+        switch (COUNTRY_CODE) {
+            case "AU":
+                return new Country[]{
+                        NZ
+                };
+            case "SG":
+                return new Country[]{
+                        MY
+                };
+            case "DE":
+                return new Country[]{
+                        AT
+                };
+            default:
+                //US MP SKALA countries
+                return new Country[]{
+                        IL
+                };
+        }
+    }
+
+    /**
+     * Get all Skala (local shipping) enabled MPs.
+     */
+    public static List<String> getSkalaEnabledMPs() {
+        return Arrays.asList("US", "DE", "AU");
+    }
+
+    /**
+     * Get a random AIS exportable country for the most often list.
+     */
+    public static Country getRandomAISExportableCountryFromMostOftenList() {
+        List<Country> mostOftenCountries = Arrays.asList(getMostOftenAISExportableCountries());
+        return mostOftenCountries.get(new Random().nextInt(mostOftenCountries.size()));
+    }
+
+    /**
+     * Get a random Amber exportable country for the most often list.
+     */
+    public static Country getRandomAmberExportableCountryFromList() {
+        List<Country> mostOftenCountries = Arrays.asList(getAmberExportableCountries());
+        return mostOftenCountries.get(new Random().nextInt(mostOftenCountries.size()));
+    }
+
+    /**
+     * Get a random Free Shipping exportable country for the most often list.
+     */
+    public static Country getRandomAisFreeShippingExportableCountryFromList() {
+        List<Country> mostOftenCountries = Arrays.asList(getAisFreeShippingExportableCountries());
+        return mostOftenCountries.get(new Random().nextInt(mostOftenCountries.size()));
+    }
+
+    /**
+     * Get a random Free Shipping exportable country for the most often list.
+     */
+    public static Country getRandomAisFlatRateShippingExportableCountryFromList() {
+        List<Country> mostOftenCountries = Arrays.asList(getAisFlatRateShippingExportableCountries());
+        return mostOftenCountries.get(new Random().nextInt(mostOftenCountries.size()));
+    }
+
+    /**
+     * Get a random Free Shipping exportable country for the most often list.
+     */
+    public static Country getRandomAisFreeReturnsExportableCountryFromList() {
+        List<Country> mostOftenCountries = Arrays.asList(getAisFreeReturnsExportableCountries());
+        return mostOftenCountries.get(new Random().nextInt(mostOftenCountries.size()));
+    }
+
+    /**
+     * Get a random GST eligible exportable country for the most often list.
+     */
+    public static Country getRandomGVCCollectedCountryFromList() {
+        List<Country> mostOftenCountries = Arrays.asList(getGVCCollectionCountries());
+        return mostOftenCountries.get(new Random().nextInt(mostOftenCountries.size()));
+    }
+
+    /**
+     * Get a random GST eligible exportable country for the most often list.
+     */
+    public static Country getRandomKYCCountryFromList() {
+        List<Country> mostOftenKYCCountries = Arrays.asList(getKYCCountries());
+        return mostOftenKYCCountries.get(new Random().nextInt(mostOftenKYCCountries.size()));
+    }
+
+    /**
+     * Get a random prime exportable country for the most often list.
+     */
+    public static Country getRandomExportsPrimeCountryFromList() {
+        List<Country> mostOftenExportsPrimeCountries = Arrays.asList(getExportsPrimeCountries());
+        return mostOftenExportsPrimeCountries.get(new Random().nextInt(mostOftenExportsPrimeCountries.size()));
+    }
+
+    /**
+     * Get all Free Shipping exportable countries display name.
+     */
+    public static List<String> getAisFreeShippingExportableCountriesDisplayName() {
+        List<Country> mostOftenCountries = Arrays.asList(getAisFreeShippingExportableCountries());
+        List<String> aisFreeShippingCountriesList = new ArrayList<String>();
+        for (int i = 0; i < mostOftenCountries.size(); i++) {
+            aisFreeShippingCountriesList.add(mostOftenCountries.get(i).getCountryDisplayName());
+            }
+        return aisFreeShippingCountriesList;
+    }
+
+    /**
+     * Get all KYC Countries countries display name.
+     */
+    public static List<String> getKYCCountriesDisplayName() {
+        List<Country> mostOftenCountries = Arrays.asList(getKYCCountries());
+        List<String> kycCountriesList = new ArrayList<String>();
+        for (int i = 0; i < mostOftenCountries.size(); i++) {
+            kycCountriesList.add(mostOftenCountries.get(i).getCountryDisplayName());
+            }
+        return kycCountriesList;
+    }
+
+    /**
+     * Get a random AIS exportable country for URL Check
+     */
+    public static Country getRandomAISURLCheckCountryFromList() {
+        List<Country> mostOftenCountries = Arrays.asList(getAISURLCheckCountries());
+        return mostOftenCountries.get(new Random().nextInt(mostOftenCountries.size()));
+    }
+
+    /**
+     * A Kamino all addresses account has the following country shipping addresses set up, get a random one.
+     */
+    public static Country getRandomAISExportableAndAllAddressesSetCountry() {
+        List<Country> countries = Arrays.asList(new Country[] {
+                //TODO: Enable KR after Kamino address is fixed - https://issues.amazon.com/PrimeQA-17372
+                CA, MX, JP, GB, AU //,KR
+        });
+        return countries.get(new Random().nextInt(countries.size()));
+    }
+
+    /**
+     * Get a random SKALA exportable country for the most often list.
+     */
+    public static Country getRandomSkalaExportableCountryFromList() {
+        List<Country> mostOftenCountries = Arrays.asList(getSkalaExportableCountries());
+        return mostOftenCountries.get(new Random().nextInt(mostOftenCountries.size()));
+    }
+
+    /**
+     * Get a random CSF / Import Charges exportable country for the most often list.
+     */
+    public static Country getRandomImportChargesOrCSFExportableCountryFromList() {
+        List<Country> mostOftenCountriesForCSF = Arrays.asList(getImportChargesOrCSFCountries());
+        return mostOftenCountriesForCSF.get(new Random().nextInt(mostOftenCountriesForCSF.size()));
+    }
+
+    private String countryDisplayName;
+    public String getCountryDisplayName() {
+        return countryDisplayName;
+    }
+    
+}
