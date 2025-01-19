@@ -1,0 +1,241 @@
+package com.amazon.aeeqa.ui.helper;
+
+import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.WebDriver;
+
+import com.amazon.aeeqa.ui.dataprovider.dataobject.TestDTO;
+import com.amazon.aeeqa.ui.pagemodels.BasePageModel;
+import com.amazon.aeeqa.ui.pagemodels.cart.CartPage;
+import com.amazon.aeeqa.ui.pagemodels.checkout.CheckoutPage;
+import com.amazon.aeeqa.ui.pagemodels.detail.DetailPage;
+
+import lombok.Builder;
+import lombok.Data;
+
+import java.net.URL;
+
+/**
+ * Workflows (require 2+ steps) helper to be common to all test classes.
+ *
+ * @author tingyong
+ */
+public final class WorkflowHelper {
+    
+    public static enum StartPage {
+        HOME_PAGE,
+        CART_PAGE
+    }
+    
+    public static enum EndPage {
+        CART_VIEW_CART,
+        CHECKOUT_ASP /*Address Selection Page*/, CHECKOUT_SOSP, CHECKOUT_PSP, CHECKOUT_RYP,
+        CHECKOUT_SPC /*single page checkout*/, CHECKOUT_GIFT_PAGE
+    }
+    
+    @Data
+    @Builder
+    public static class RequestData {
+        private WebDriver driver;
+        private URL baseUrl;
+        private TestDTO[] testDTOs;
+        private boolean signInNeeded;
+        private boolean getDPTitle;
+        private String deliverToAddressName;
+        private boolean deliverToMultipleAddresses;
+        private StartPage startPage;
+        private EndPage endPage;
+        private BasePageModel initializedPage;
+    }
+    
+    @Data
+    public static class ReturnData {
+        private String[] dpTitles;
+        private boolean clearCartNeeded;
+        private BasePageModel returnPage;
+    }
+
+    /**
+     * Cart related workflow.
+     */
+    public static ReturnData workflowToCart(final RequestData requestData) {
+        validateWorkflowEndPage(requestData, "CART");
+        ReturnData returnData = new ReturnData();
+        signInIfNeeded(requestData, returnData);
+        if (requestData.signInNeeded) {
+            CartHelper.clearItemsInCart(requestData.driver);
+        }
+        addItemsToCart(requestData, returnData);
+        switch (requestData.endPage) {
+            case CART_VIEW_CART:
+                CartHelper.goToCartPage(requestData.driver, requestData.baseUrl);
+                break;
+            default: 
+                throw new UnsupportedOperationException("Unsupported end page for workflowToCart: "
+                    + requestData.endPage);
+        }
+        return returnData;
+    }
+    
+    /**
+     * Checkout related workflow.
+     */
+    public static ReturnData workflowToCheckout(final RequestData requestData) {
+        validateWorkflowEndPage(requestData, "CHECKOUT");
+        ReturnData returnData = new ReturnData();
+        if (requestData.startPage == StartPage.HOME_PAGE) {
+            signInIfNeeded(requestData, returnData);
+            CartHelper.clearItemsInCart(requestData.driver);
+            addItemsToCart(requestData, returnData);
+            CartHelper.goToCartPage(requestData.driver, requestData.baseUrl);
+        }
+        CartPage cartPage = null;
+        if (requestData.startPage == StartPage.CART_PAGE && requestData.initializedPage != null) {
+            cartPage = (CartPage) requestData.initializedPage;
+        } else {
+            cartPage = new CartPage(requestData.driver);
+        }
+        cartPage.goToCheckout();
+        CheckoutPage checkoutPage = new CheckoutPage(requestData.driver);
+        // If it went to Prime Upsell page
+        if (checkoutPage.isPrimeUpsellAreaPagePresent()) {
+            checkoutPage.declinePrimeSubscription();
+        }
+        switch (requestData.endPage) {
+            case CHECKOUT_SPC:
+                break;
+            case CHECKOUT_ASP:
+                // If it went to "Review your order" page
+                if (checkoutPage.isPlaceYourOrderButtonPresent()) {
+                    // Directly navigate back to Address Select page
+                    CheckoutPageHelper.goToAddressSelectPage(requestData.driver, requestData.baseUrl);
+                }
+                break;
+            case CHECKOUT_GIFT_PAGE:
+                if (!checkoutPage.isGiftSaveOptionButtonPresent()) {
+                    if (requestData.isDeliverToMultipleAddresses()) {
+                        checkoutPage.getAddressSelectionPage().clickDeliverToMultipleAddressLinkInMultiShipOptionsPage();
+                        checkoutPage.getAddressSelectionPage().getMultiAddrPage()
+                                .deliverToMultipleAddressAndContinueInMultiShipOptions(requestData.deliverToAddressName, true);
+                    } else {
+                        if (StringUtils.isNotBlank(requestData.deliverToAddressName)) {
+                            checkoutPage.getAddressSelectionPage().deliverToThisAddressByAddressName(requestData.deliverToAddressName);
+                            checkoutPage.isGiftSaveOptionButtonPresent();
+                        } else {
+                            checkoutPage.getAddressSelectionPage().deliverToThisAddress();
+                            checkoutPage.isGiftSaveOptionButtonPresent();
+                        }
+                    }
+                }
+                break;
+            case CHECKOUT_SOSP:
+            case CHECKOUT_PSP:
+            case CHECKOUT_RYP:
+                // SOSP workflows
+                //For MENA Countries, If the Address is Set on Glow, its skipping ASP Page
+                if (!checkoutPage.getPaymentSelectionPage().isPaymentPagePresent()) {
+                    if (requestData.isDeliverToMultipleAddresses()) {
+                        checkoutPage.getAddressSelectionPage().clickDeliverToMultipleAddressLinkInMultiShipOptionsPage();
+                        checkoutPage.getAddressSelectionPage().getMultiAddrPage()
+                                .deliverToMultipleAddressAndContinueInMultiShipOptions(requestData.deliverToAddressName, true);
+                    } else {
+                        if (StringUtils.isNotBlank(requestData.deliverToAddressName)) {
+                            checkoutPage.getAddressSelectionPage().deliverToThisAddressByAddressName(requestData.deliverToAddressName);
+                        } else {
+                            checkoutPage.getAddressSelectionPage().deliverToThisAddress();
+                        }
+                    }
+                }
+                // If it went to "Review your order" page
+                if (checkoutPage.isPlaceYourOrderButtonPresent()) {
+                    // Directly navigate back to Ship Option Select page
+                    CheckoutPageHelper.goToShipOptionsSelectPage(requestData.driver, requestData.baseUrl);
+                }
+                if (EndPage.CHECKOUT_SOSP == requestData.endPage) {
+                    break;
+                }
+                // PSP workflows
+                // If it went to "Review your order" page
+                if (checkoutPage.isPlaceYourOrderButtonPresent()) {
+                    // Directly navigate back to Pay Select page
+                    CheckoutPageHelper.goToPaySelectSelectPage(requestData.driver, requestData.baseUrl);
+                }
+                if (EndPage.CHECKOUT_PSP == requestData.endPage) {
+                    break;
+                }
+                // RYP workflows
+                checkoutPage.getPaymentSelectionPage().continueToPlaceOrder();
+                if (EndPage.CHECKOUT_RYP == requestData.endPage) {
+                    break;
+                }
+            default: 
+                throw new UnsupportedOperationException("Unsupported end page for workflowToCheckout: "
+                    + requestData.endPage);
+        }
+        returnData.returnPage = checkoutPage;
+        return returnData;
+    }
+
+    private static void signInIfNeeded(final RequestData requestData, final ReturnData returnData) {
+        if (requestData.isSignInNeeded()) {
+            validateTestDTOs(requestData);
+            SignInAndOutHelper.signIn(requestData.driver, requestData.testDTOs[0], requestData.baseUrl);
+        }
+    }
+    
+    private static void addItemsToCart(final RequestData requestData, final ReturnData returnData) {
+        validateTestDTOs(requestData);
+        DetailPage detailPage = null;
+        String[] dpTitles = requestData.isGetDPTitle() ? new String[requestData.testDTOs.length] : null;
+        // Decide whether to initialize detailPage
+        boolean needGetOfferListingValue = false;
+        for (int i = 0; i < requestData.testDTOs.length; i++) {
+            if (requestData.testDTOs[i].getTestASIN()!= null) {
+                needGetOfferListingValue = true;
+                break;
+            }
+        }
+        if (requestData.isGetDPTitle() || needGetOfferListingValue) {
+            detailPage = new DetailPage(requestData.driver);
+        }
+        String[] offerListingValues = new String[requestData.testDTOs.length];
+        // Visit DetailPage if needed
+        for (int i = 0; i < requestData.testDTOs.length; i++) {
+            if (requestData.isGetDPTitle() || requestData.testDTOs[i].getTestASIN() != null) {
+                DetailPageHelper.goToDetailPage(requestData.driver, requestData.testDTOs[i].getTestASIN(), requestData.baseUrl);
+                if (requestData.isGetDPTitle()) {
+                    dpTitles[i] = detailPage.getProductTitleText();
+                }
+                if (requestData.testDTOs[i].getTestASIN() != null) {
+                    offerListingValues[i] = detailPage.getOfferListingValue();
+                }
+            }
+        }
+        // Add items to Cart
+        for (int i = 0; i < offerListingValues.length; i++) {
+            CartHelper.addItemsToCart(requestData.driver,
+                    requestData.testDTOs[i].getTestASIN().getAsin(), offerListingValues[i]);
+        }
+        if (requestData.isGetDPTitle()) {
+            returnData.dpTitles = dpTitles;
+        }
+        if (requestData.signInNeeded) {
+            returnData.clearCartNeeded = true;
+        }
+    }
+    
+    private static void validateTestDTOs(final RequestData requestData) {
+        if (requestData.testDTOs == null || requestData.testDTOs.length == 0) {
+            throw new IllegalArgumentException("No testDTO set.");
+        }
+    }
+    
+    private static void validateWorkflowEndPage(final RequestData requestData, final String prefix) {
+        if (requestData.endPage == null || !requestData.endPage.name().startsWith(prefix)) {
+            throw new IllegalArgumentException("No workflow target set or the target not starts with: " + prefix);
+        }
+    }
+
+    /** default private constructor. */
+    private WorkflowHelper() {
+    }
+}
