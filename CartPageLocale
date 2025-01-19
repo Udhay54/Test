@@ -1,0 +1,75 @@
+package com.amazon.aeeqa.locale.cart;
+
+import com.amazon.aeeqa.locale.BaseLocale;
+import com.amazon.aeeqa.locale.LOPLocale;
+import com.google.common.collect.ImmutableMap;
+import lombok.NonNull;
+
+import java.util.Locale;
+import java.util.Map;
+
+/**
+ * CartPageLocale for storing cart page string IDs.
+ *
+ * @author sresgm.
+ */
+public class CartPageLocale extends BaseLocale {
+
+    static public CartPageLocale RCX_SC_SFL_N_ITEMS = createConstant("rcx-sc-sfl-n-items", StringType.HARDCODED_STRING,
+            ImmutableMap.<Locale, String>builder()
+                    .put(LOPLocale.fr_BE, "Enregistrés pour plus tard ({temp} articles)")
+                    .put(LOPLocale.en_GB, "Saved for later ({temp} items)")
+                    .put(LOPLocale.en_IE, "Saved for later ({temp} items)")
+                    .build());
+
+    static public CartPageLocale RCX_SC_SFL_ONE_ITEM = createConstant("rcx-sc-sfl-one-item", StringType.HARDCODED_STRING,
+            ImmutableMap.<Locale, String>builder()
+                    .put(LOPLocale.fr_BE, "Enregistré pour plus tard ({temp} article)")
+                    .put(LOPLocale.en_GB, "Saved for later ({temp} items)")
+                    .put(LOPLocale.en_IE, "Saved for later ({temp} items)")
+                    .build());
+
+    static public CartPageLocale RCX_SC_SHOPCART_SUBTOTAL_SINGLE = createConstant("rcx-sc-shopcart-subtotal-single", StringType.AST_STRING);
+    static public CartPageLocale JUMPIN_MSG_FREE_SHIPPING = createConstant("jumpin_msg_free_shipping", StringType.AST_STRING);
+    static public CartPageLocale JUMPIN_MSG_UNDER_FREE_SHIPPING_THRESHOLD = createConstant("jumpin_msg_under_free_ship_threshold", StringType.AST_STRING);
+    static public CartPageLocale JUMPIN_MSG_FREE_IFD_THRESHOLD_UNDER_FREE_SHIPPING_THRESHOLD_VALUE_COP = createConstant(
+                        "jumpin_msg_free_ifd_threshold_under_free_ship_threshold_value_cop", StringType.AST_STRING);
+    static public CartPageLocale JUMPIN_MSG_FREE_IFD_THRESHOLD_UNDER_FREE_SHIPPING_THRESHOLD_VALUE_NON_COP = createConstant(
+                        "jumpin_msg_free_ifd_threshold_under_free_ship_threshold_value_non_cop", StringType.AST_STRING);
+    static public CartPageLocale EFS_UPSELL_CART_BUY_BOX = createConstant("efs_upsell_cart_buy_box", StringType.AST_STRING);
+    static public CartPageLocale MIR_CFS_CART_FREE_SHIPPING_ELIGIBLE = createConstant("mir_cfs_cart_free_shipping_eligible", StringType.AST_STRING);
+    static public CartPageLocale RCX_SC_SHOPPING_CART = createConstant("rcx-sc-shopping-cart", StringType.AST_STRING);
+    static public CartPageLocale GSFS_ITEM_ELIGIBLE_FOR_FREE_DELIVERY = createConstant("gsfs-item-eligible-for-free-delivery", StringType.AST_STRING);
+    static public CartPageLocale RCX_SC_YOUR_SAVE_FOR_LATER_LIST = createConstant("rcx-sc-your-save-for-later-list", StringType.AST_STRING);
+    static public CartPageLocale RCX_SC_WAS_REMOVED_FROM = createConstant("rcx-sc-was-removed-from", StringType.AST_STRING);
+    static public CartPageLocale RCX_SC_HAS_BEEN_MOVED_TO = createConstant("rcx-sc-has-been-moved-to", StringType.AST_STRING);
+    static public CartPageLocale RCX_SC_YOUR_SHOPPING_CART = createConstant("rcx-sc-your-shopping-cart", StringType.AST_STRING);
+    static public CartPageLocale RCX_SC_MOVED_TO_WISHLIST = createConstant("rcx-sc-moved-to-wishlist", StringType.AST_STRING);
+    static public CartPageLocale MSS_DELIVERY_36834 = createConstant("mss-delivery_36834", StringType.AST_STRING);
+    static public CartPageLocale EFS_FREE_SHIPPING_CART_INFO_BLOCK_DELIVERY_PROGRAM_SUBTITLE = createConstant("efs_free_shipping_cart_info_block_delivery_program_subtitle", StringType.AST_STRING);
+    static public CartPageLocale EFS_FREE_SHIPPING_CART_BUY_BOX = createConstant("efs_free_shipping_cart_buy_box", StringType.AST_STRING);
+    static public CartPageLocale EFS_UPSELL_CART_INFO_BLOCK_DELIVERY_PROGRAM_SUBTITLE = createConstant("efs_upsell_cart_info_block_delivery_program_subtitle", StringType.AST_STRING);
+    static public CartPageLocale EFS_PARTIAL_UPSELL_CART_BUYBOX_HUC_DEFAULT = createConstant("efs_partial_upsell_cart_buybox_huc_default", StringType.AST_STRING);
+    static public CartPageLocale EFS_PARTIAL_FREE_SHIPPING_CART_BUYBOX_HUC_DEFAULT = createConstant("efs_partial_free_shipping_cart_buybox_huc_default", StringType.AST_STRING);
+    static public CartPageLocale EFS_PAID_SHIPPING_CART_INFO_BlOCK_DELIVERY_PROGRAM_SUBTITLE = createConstant("efs_paid_shipping_cart_info_block_delivery_program_subtitle", StringType.AST_STRING);
+    static public CartPageLocale CORECX_DELIVERY_PRICE_FREE = createConstant("corecx_delivery_price_free", StringType.AST_STRING);
+    static public CartPageLocale CORECX_DELIVERY_TYPE_CAPITAL_DELIVERY = createConstant("corecx_delivery_type_capital_delivery", StringType.AST_STRING);
+    static public CartPageLocale MIR_FDNO_CART_FULLY_ELIGIBLE = createConstant("mir_fdno_cart_fully_eligible", StringType.AST_STRING);
+    static public CartPageLocale AGS_IMPORT_CHARGES_LABEL = createConstant("ags-import-charges-label", StringType.AST_STRING);
+    static public CartPageLocale RCX_SC_WAS_SHIPPED_FROM = createConstant("rcx-sc-shipped-from", StringType.AST_STRING);
+    static public CartPageLocale EXPORTS_FREE_RETURN_OPTION = createConstant("exports-free-return-option-text1", StringType.AST_STRING);
+
+    /**
+     * Method to create new constant instance.
+     */
+    private static CartPageLocale createConstant(@NonNull String stringID, StringType stringType, Object... args) {
+        return new CartPageLocale(stringID, stringType, getPantherIdFromArgs(args), getHardcodedContentFromArgs(args));
+    }
+
+    /**
+     * Private constructor method.
+     */
+    private CartPageLocale (String stringID, StringType stringType, String pantherId, Map<Locale, String> localisedText){
+        super(stringID, stringType, pantherId, localisedText);
+    }
+}
