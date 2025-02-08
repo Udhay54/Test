@@ -1,0 +1,160 @@
+xpath
+
+
+
+value:"//*[@id='subtotals-marketplace-table']//*[self::tr[@data-testid='SpcOrderSummarySubtotalsItems'] or self:: *[contains(text(),'%s')]]"
+
+
+value:"//div[contains(@class, 'shipping-group')]//div[@class='a-row']//div/following-sibling::span"
+
+value:"//*[@id='subtotals-marketplace-table']//*[self::tr[@data-testid='SpcOrderSummarySubtotalsItems'] or contains(text(), 'Items') or contains(text(), '%s') ]"
+
+value:"//*[@id[contains(.,'subtotals')]]//div[contains(@class, 'order-summary-line-definition')]/span[contains(@class, 'a-nowrap')]"
+
+value:"(//span[contains(@data-component-type, 'result-info-bar')]//h1[contains(@class,'desktop-toolbar')]//span)[1]"
+
+value:"//*[@id='subtotals-marketplace-table']//*[self::a or self::span][contains(text(), 'Import Fees Deposit')]"
+
+ value:"//div[contains(@id,'refinements')]//*[contains(@aria-labelledby, '%s')]"
+ 
+ value:"//*[contains(@id,'rhf-shoveler')]//*[contains(@aria-label,'Prime')]"
+ 
+ value:"//*[contains(@id,'rhf-shoveler')]//*[contains(@aria-label,'Prime')]/parent::span/parent::div"
+ 
+ value:"//*[contains(@id,'accessType')]/parent::div"
+ 
+ value:"//*[contains(@id,'accessType')]/parent::div//*[contains(@data-csa-c-element-id,'Exclusive')]"
+ 
+ value:"//*[contains(@id,'accessType')]/parent::div//*[contains(@data-csa-c-element-id,'Early')]"
+ 
+ value:"//*[contains(@id,'hmenu-content')]//a[contains(@data-ref-tag, 'nav_em_1_1_1_2') and contains(., '%s')]"
+ 
+ value:"//*[contains(@id, 'ap_email') or contains(@id, 'ap_email_login')]"
+ 
+ value:"//div[contains(@id,'nav-xshop')]//a[contains(@href,'nav_cs_gb')]"
+ 
+ value:"//*[contains(@class,'DesktopDiscountAsinGrid')]//*[contains(@data-testid,'virtuoso')]//*[contains(@aria-label,'Prime')]"
+ 
+ value:"//*[contains(@class,'glow-toaster-footer')]//*[contains(@data-action-type,'DISMISS')]"
+ 
+ value:"//div[contains(@class, 'shipping-group') or contains(@class, 'checkout-experience-panel')]//i[contains(@class, 'a-icon-prime')]"
+ 
+ value:"//*[contains(@href,'chk_stma_err_learn_more?ie=UTF8&nodeId=GUZ78EGEHW83RWD2')]"
+ 
+ value:"//*[contains(@class,'pmts-cc-address-challenge pmts-selected')]//input[contains(@data-testid,'challenge-card-number')]"
+ 
+ value:"//*[@id[contains(.,'subtotals')]]//*[contains(.,\"%s\")]/parent::li"
+ 
+ value:"//*[contains(@name,'ppw-giftCardSelection')] | //*[contains(@class,'pmts-gc-radio-button') and not(contains(@class,'a-hidden'))]"
+ 
+ value:"//*[contains(@aria-labelledby,'checkout-secondary-continue-button-id-announce')] | //*[contains(@aria-labelledby,'orderSummaryPrimaryActionBtn-announce')]"
+ 
+ value:"//*[contains(@class, 'loading-img-text') and contains(@style,'display: block')] | //*[contains(@class,'loading-spinner-image-only')]//img[@id='loading-spinner-img' or @id='smallLoadingSpinner'] | //*[contains(@class, 'popover-loading-wrapper')] | //*[contains(@class,'current-spinner')]//img[contains(@src,'amazonui/loading')]"
+ 
+ value:"(//div[@data-cy='delivery-recipe']//div[@class='a-row']//span)[1]"
+ 
+ value:"//*[@id='aod-offer-soldBy']//*[contains(text(), '%s')]/ancestor::*[(@id='aod-pinned-offer') or (@id='aod-offer')]//i[contains(@class, 'icon-prime')]"
+ 
+ value:"//*[contains(@class,'popover-wrapper')]//div[contains(@id, 'a-popover')]//span[contains(text(), '%s')]/../following-sibling::div/span"
+ 
+ value:"//form[@id='activeCartViewForm']//div[@data-asin='%s']//div[contains(@class,'sc-product-image-container')]/../following-sibling::div | //form[@id='activeCartViewForm']//div[@data-asin='%s']//div[contains(@class,'sc-item-price-block')]//a[contains(@class,'a-link')]"
+
+ value:"(//span[contains(@data-csa-c-delivery-benefit-program-id,'global_store')] |//div[contains(@id,'SECONDARY')] |//span[contains(@data-csa-c-mir-view,'DEEP_CHECK_PROMISE')])[2]//span[contains(@class,'a-text-bold')]"
+ 
+ value:"//div[@id='primeAutomaticPopoverAdContent']//a[@href[contains(.,'checkoutInterstitialDecline')]] | //*[@id='prime-declineCTA'] | //*[@id='prime']//span[contains(@class,'prime-no-button')]//button[contains(@class, 'a-button-text')] |//*[@class[contains(.,'prime-no-button')]] | //div[contains(@id,'nothanks-text')]//a[contains(@id,'prime-no-thanks')]"
+ 
+ value:"//span[contains(@data-a-modal,'location_selector')]"
+ 
+ value:"//div[contains(@class,'cs-help-breadcrumb')]/child::a"
+ 
+ value:"//div[contains(@class,'shipment')]//input[contains(@value,'%s')]/following::div//*[contains(@class,'ship-option') or contains(@class,'shipping-speeds')]//input[@type='radio' and @checked]/following-sibling::span"
+ 
+ value:" //*[@id='page-section-detail-seller-info']//span[contains(.,\"%s\")]/following-sibling::span"
+ 
+ value:"//div[@id='aod-filter-swatch-box-clear-all-div']/preceding::div[contains(@id,'aod-swatch-id-freeShipping')]"
+ 
+ value:"//div[@id='orderDetails']/div[contains(., \"%s\")]//img/following-sibling::*[contains(.,\"%s\") or contains(.,'***')]"
+ 
+ value:"//input[@id='address-ui-widgets-enterAddressCity']//..//ul//li[1]"
+ 
+ value:"//input[@id='address-ui-widgets-enterAddressDistrictOrCounty']//..//ul//li[1]"
+ 
+ value:"(//div[contains(@class,'a-row a-size-base a-color-secondary')])[3]/span[2]"
+ 
+ value:"//a[contains(., '%') and contains(@href, '/product-reviews/')]"
+ 
+ value:"//form[@id='new_profile']//*[@id='save-public-activity']/../preceding-sibling::*//a[contains(@href, '/gp/profile')]"
+ 
+ value:"//div[@id='kycxborder']//a[contains(@href,'nodeId=GAV3NYNSGRGTGAJJ')]/ancestor::span"
+ 
+  value:"//i[contains(@class,'a-icon-search')]/ancestor::div[position()=2]//input"
+  
+  value:"//div[contains(@id, 'bolt-widget')]//span[normalize-space()='%s']"
+  
+  value:"//*[@id='address-list']//img[contains(@src,'AmazonPickupLocations')]//ancestor::fieldset"
+  
+  value:"//span[text()='A:' or text()='R :']//following-sibling::span
+  
+  value:"//span[text()='Q:' or text()='Q :']//following-sibling::span"
+
+  value:"(//a[contains(@href, '/dp/') and contains(@href, 'details')])[2]"
+  
+  value:"//form[@id='searchForm']//input[@type='submit'] | //div[@class='search-bar']//input[@type='submit']"
+  
+  value:"//div[@id='filters']//div[contains(@class, 'a-checkbox') and following-sibling::span[.='Amazon Global Store' or .='Amazon International Store' or .='Amazon.com Selections' or .='Amazon US' or .='%s']]//I[contains(@class, 'a-icon-checkbox')]"
+  
+  value:"//div[@data-card-identifier='EmailAlertsMessagesAdsAndCookies' or @data-card-identifier='EmailAlertsMessagesAndAds']//a[.='%s']"
+  
+  value:"//label[contains(@for,'foresight-help-topic')]"
+  
+  value:"//div[contains(@class,'a-subheader')]//a/h4[contains(.,'%s')]"
+  
+  value:"//*[@id='endOfGrid']/preceding-sibling::div[starts-with(@id,'featured-')]//*[contains(@class,'_asinDetailImageColumn_')]/a"
+  
+  //*[@id = 'mbc-popover-soldBy-%s']/following-sibling::*[1]
+  
+   value:"//*[contains(@class,'a-popover') and contains(@aria-hidden,'false')]//*[@id='address-ui-widgets-enterAddressLine1']"
+   
+   value:"//*[starts-with(@id, 'mbc-sold-by-%d')]/span[2]"
+   
+   value:"//div[contains(@class,'askProductDescription')]//a[contains(@href,'/gp/product')]"
+   
+   value:"//img[contains(@src,'01RmK+J4pJL._AC')]"
+   
+   value:"//div[contains(@class,'s-search-results')]//img[@alt='']"
+   
+   value:"//div[contains(@id,'desktop-hero-1')]//img"
+   
+   value:"//img[contains(@alt,'Free Shipping')]//ancestor::a[contains(@class,'a-link')]"
+   
+   value:"//header[@id='navbar-main']/following::div[@id='dp']//*[@id='productTitle']"
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ -------------------------------------------------------------
+ 
+ public void clickAddGiftWrapCheckbox() {
+        waitForPageToLoad();
+        String checkboxXPath = "//div[contains(@class, 'sc-gift-option')]//input[@type='checkbox']";
+        WebElement checkbox = driver.findElement(By.xpath(checkboxXPath));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        jsExecutor.executeScript("arguments[0].click();", checkbox);
+    }
+	
+	
+	
+	
+	
+	Xpath:
+	
+	public void verifyPaymentMethodLabelInOrderDetailsPage(String paymentMethodString) {
+	         BasePageElement paymentMethodTextInOrderDetailsPage =  new BasePageElement(driver,
+	                 paymentMethodLabelInOrderDetailsPage.getName(),
+	                 String.format(paymentMethodLabelInOrderDetailsPage.getXPath(), paymentMethodString));
+	         status.addIsDisplayed(paymentMethodTextInOrderDetailsPage);
+	         status.processStatus();
+	     }
